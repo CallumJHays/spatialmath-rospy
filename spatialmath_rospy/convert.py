@@ -1,39 +1,141 @@
 
-from typing import Any, Union, overload
-
-from spatialmath import SE3, Quaternion, UnitQuaternion
+from typing import Optional, Union, overload, Literal
 
 from std_msgs.msg import Header
-from geometry_msgs.msg import Pose, PoseStamped, Twist
+import geometry_msgs.msg as gm
+import spatialmath as sm
+import spatialmath.base as smb
+
+__all__ = ["to_ros", "to_se3"]
+
+@overload
+def to_ros(
+    obj: Union[sm.SE3, sm.SO3],
+    header: None = None,
+    *,
+    as_tf: Literal[False] = False
+) -> gm.Pose:
+    ...
 
 
-class SE3Stamped(SE3):
-    def __init__(self, header: Header, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
+@overload
+def to_ros(
+    obj: Union[sm.SE3, sm.SO3],
+    header: Header,
+    *,
+    as_tf: Literal[False] = False
+) -> gm.PoseStamped:
+    ...
 
 
+@overload
+def to_ros(
+    obj: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
+    header: None = None,
+    *,
+    as_tf: Literal[True]
+) -> gm.Transform:
+    ...
 
-def convert(obj):
-    if isinstance(obj, SE3):
-        return Pose(
-            position=obj.t,
-            orientation=Quaternion(obj.R)
+
+@overload
+def to_ros(
+    obj: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
+    header: Header,
+    *,
+    as_tf: Literal[True]
+) -> gm.TransformStamped:
+    ...
+
+@overload
+def to_ros(
+    obj: sm.UnitQuaternion,
+    header: None = None,
+    *,
+    as_tf: Literal[False] = False
+) -> gm.Quaternion:
+    ...
+
+@overload
+def to_ros(
+    obj: sm.UnitQuaternion,
+    header: Header,
+    *,
+    as_tf: Literal[False] = False
+) -> gm.QuaternionStamped:
+    ...
+
+def to_ros(
+    obj: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
+    header: Optional[Header] = None,
+    *,
+    as_tf: bool = False
+) -> Union[
+    gm.Pose, gm.PoseStamped,
+    gm.Quaternion, gm.QuaternionStamped,
+    gm.Transform, gm.TransformStamped
+]:
+    # construct the appropriate geometric output object
+    res = gm.Transform(
+        translation=gm.Vector3(0, 0, 0) if not isinstance(obj, sm.SE3) else gm.Vector3(*obj.t),
+        rotation=gm.Quaternion(*smb.r2q(obj.R, order="xyzs"))
+    ) if as_tf else gm.Quaternion(
+        *obj.v, obj.s
+    ) if isinstance(obj, sm.UnitQuaternion) else gm.Pose(
+        position=gm.Point(0, 0, 0) if not isinstance(obj, sm.SE3) else gm.Point(*obj.t),
+        orientation=gm.Quaternion(*smb.r2q(obj.R, order="xyzs"))
+    )
+    
+    # if a header was specified, wrap the result in the corresponding stamped message
+    if header is not None:
+        res = gm.TransformStamped(
+            header=header,
+            transform=res
+        ) if as_tf else gm.QuaternionStamped(
+            header=header,
+            quaternion=res
+        ) if isinstance(obj, sm.UnitQuaternion) else gm.PoseStamped(
+            header=header,
+            pose=res
         )
+    
+    return res
 
-    elif isinstance(obj, SE3Stamped):
-        return PoseStamped(
-            header=obj.header,
-            pose=convert(obj)
-        )
 
-    elif isinstance(obj, Pose):
-        return SE3(obj.position, UnitQuaternion(obj.orientation))
+@overload
+def to_spatialmath(obj: Union[gm.Pose, gm.PoseStamped, gm.Transform, gm.TransformStamped]) -> sm.SE3:
+    ...
+    
+@overload
+def to_spatialmath(obj: Union[gm.Quaternion, gm.QuaternionStamped]) -> sm.UnitQuaternion:
+    ...
 
-    elif isinstance(obj, PoseStamped):
-        return SE3Stamped(obj.header, convert(obj.pose))
+def to_spatialmath(
+    obj: Union[
+        gm.Pose, gm.PoseStamped,
+        gm.Quaternion, gm.QuaternionStamped,
+        gm.Transform, gm.TransformStamped
+    ]
+) -> Union[sm.SE3, sm.UnitQuaternion]:
 
-    elif isinstance(obj, Twist):
-        return SE3(obj.linear, UnitQuaternion(obj.angular))
+    raw = \
+        obj.pose if isinstance(obj, gm.PoseStamped) else \
+        obj.transform if isinstance(obj, gm.TransformStamped) else \
+        obj.quaternion if isinstance(obj, gm.QuaternionStamped) else \
+        obj
+    
+    if isinstance(raw, gm.Quaternion):
+        return sm.UnitQuaternion(raw.w, [raw.x, raw.y, raw.z])
+    
+    def raise_err():
+        raise ValueError(f"Unable to convert {type(obj)} to SE3")
 
-    else:
-        raise TypeError(f"Cannot convert unsupported type {type(obj)} for object {repr(obj)}")
+    pos, rot = \
+        (raw.position, raw.orientation) if isinstance(raw, gm.Pose) else \
+        (raw.translation, raw.rotation) if isinstance(raw, gm.Transform) else \
+        raise_err()
+
+    return sm.SE3.Rt(
+        R=smb.q2r([rot.x, rot.y, rot.z, rot.w], order="xyzs"),
+        t=[pos.x, pos.y, pos.z]
+    )
