@@ -50,15 +50,15 @@ setup(
     ],
     python_requires=">=3.6",
     project_urls={
-        "Documentation": "https://petercorke.github.io/spatialmath-rospy",
-        "Source": "https://github.com/petercorke/spatialmath-rospy",
-        "Tracker": "https://github.com/petercorke/spatialmath-rospy/issues",
-        "Coverage": "https://codecov.io/gh/petercorke/spatialmath-rospy",
+        "Documentation": "https://CallumJHays.github.io/spatialmath-rospy",
+        "Source": "https://github.com/CallumJHays/spatialmath-rospy",
+        "Tracker": "https://github.com/CallumJHays/spatialmath-rospy/issues",
+        "Coverage": "https://codecov.io/gh/CallumJHays/spatialmath-rospy",
     },
-    url="https://github.com/petercorke/spatialmath-rospy",
-    author="Peter Corke",
+    url="https://github.com/CallumJHays/spatialmath-rospy",
+    author="Callum J Hays",
     author_email="callumjhays@gmail.com",  # TODO
-    keywords="python SO2 SE2 SO3 SE3 twist translation orientation rotation euler-angles roll-pitch-yaw roll-pitch-yaw-angles quaternion unit-quaternion rotation-matrix transforms robotics robot vision pose",
+    keywords="python ros rospy spatialmath spatialmath-python geometry robotics transformations",
     license="MIT",  # TODO
     packages=find_packages(exclude=["test_*", "TODO*"]),
     install_requires=["numpy", "spatialmath-rospy"],

@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = "spatialmath-rospy"
-copyright = "2020, Callum J Hays"
+copyright = "2022, Callum J Hays"
 author = "Callum J Hays"
 
 

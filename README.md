@@ -21,33 +21,116 @@
 </p> -->
 
 Spatial Math for ROS.
+Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialmath-python`](https://pypi.org/project/spatialmath-python/).
 
-Interface library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialmath-python`](https://pypi.org/project/spatialmath-python/).
+Currently just contains conversion functionality.
 
-## QuickStart
+# QuickStart
 
 ```bash
 pip install spatialmath-rospy
 ```
 
-Conversions:
+## Using extended classes
+[recommended]
 
 ```python
-from geometry_msgs.msg import PoseStamped
-import spatialmath.base as smb
-import spatialmath_rospy as sm_rospy
+from spatialmath_rospy import SE3
 
-pose_msg: PoseStamped = sm_rospy.convert()
-
+pose_msg = SE3(1, 2, 3).to_ros()
+print(pose_msg)
+print(SE3.from_ros(pose_msg))
 ```
 
-Check out more examples in the [Examples directory](./examples/)
 
-## Installation
+## Using helper functions
 
-Install via pip:
+```python
+import spatialmath as sm
+from spatialmath_rospy import from_ros, to_ros
 
-`pip install mathpad`
+pose_msg = to_ros(sm.SE3(1, 2, 3))
+print(pose_msg)
+print(from_ros(pose_msg))
+```
+
+
+## `Transform` msgs
+
+The `to_ros()` function returns a `Pose` msg by default.
+
+A `Transform` msg can be returned instead with `to_ros(as_tf=True)`.
+
+```python
+from spatialmath_rospy import SE3
+
+tf_msg = SE3(1, 2, 3).to_ros(as_tf=True)
+print(tf_msg)
+print(from_ros(tf_msg))
+```
+
+## `Quaternion` msgs
+
+`Quaternion` msgs convert to `UnitQuaternion` objects and vice versa.
+
+```python
+from spatialmath_rospy import UnitQuaternion
+
+quat_msg = UnitQuaternion(1, [0, 0, 0]).to_ros()
+print(quat_msg)
+print(from_ros(quat_msg))
+```
+
+`UnitQuaternion` can also be converted to a `Transform` msg with `to_ros(as_tf=True)`.
+
+This `Transform` will have zero translation.
+
+```python
+from spatialmath_rospy import UnitQuaternion
+
+quat = UnitQuaternion(1, [0, 0, 0])
+
+tf_msg = quat.to_ros(as_tf=True)
+print(tf_msg)
+
+se3 = from_ros(tf_msg)
+print(se3)
+```
+
+## Stamped messages
+Just pass a `std_msgs.msg.Header` in to `to_ros()` to construct stamped objects:
+
+```python
+from std_msgs.msg import Header
+from spatialmath_rospy import SE3
+
+pose_stamped_msg = SE3(1, 2, 3).to_ros(
+  Header(frame_id="world")
+)
+print(pose_stamped_msg)
+```
+
+This works for all supported ros msg types:
+- `Pose` / `PoseStamped`
+- `Transform` / `TransformStamped`
+- `Quaternion` / `QuaternionStamped`
+
+## Using monkey-patch
+[not recommended]
+
+You may prefer to use this option if wanting to add the `from_ros()` and `to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis will not work.
+
+```python
+import spatialmath as sm
+from spatialmath_rospy import monkey_patch_spatialmath
+
+# Invoke this at any point before calling conversion functions
+monkey_patch_spatialmath()
+
+pose_msg = sm.SE3(1, 2, 3).to_ros()
+print(pose_msg)
+```
+<!-- Check out more examples in the [Examples directory](examples/) -->
 
 <!-- ## Contributors ✨
 
