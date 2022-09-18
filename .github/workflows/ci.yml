@@ -63,13 +63,6 @@ jobs:
               # https://ros.org/reps/rep-0003.html
               # https://ros.org/reps/rep-2000.html
               include:
-                - docker_image: ubuntu:xenial
-                  ros_distribution: kinetic
-                  ros_version: 1
-
-                - docker_image: ubuntu:zesty
-                  ros_distribution: lunar
-                  ros_version: 1
                   
                 # Melodic Morenia (May 2018 - May 2023)
                 - docker_image: ubuntu:bionic
@@ -114,10 +107,10 @@ jobs:
               run: pip install -r dev-requirements.txt
               
             - name: Install ROS Deps
-              run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
+              run: apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
 
             - name: Test with Pytest
-              run: source /opt/ros/noetic/setup.bash && python -m pytest
+              run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest
 
     # docs:
     #     runs-on: ubuntu-latest
