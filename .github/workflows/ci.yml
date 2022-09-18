@@ -43,11 +43,8 @@ jobs:
                 - 3.8
                 - 3.9
                 - '3.10' # when parsed as num, '0' disappears
-                - 3.11
                   
               ros_distribution:
-                - kinetic
-                - lunar
                 - melodic
                 - noetic
                 - foxy
