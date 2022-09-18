@@ -1,6 +1,6 @@
 
-from typing import Type, Union, Optional, overload, Literal
-from typing_extensions import Self
+from typing import Type, Union, Optional, overload
+from typing_extensions import Literal
 import spatialmath as sm
 import spatialmath.base as smb
 

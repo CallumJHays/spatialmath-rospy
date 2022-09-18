@@ -23,7 +23,9 @@
 Spatial Math for ROS.
 Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialmath-python`](https://pypi.org/project/spatialmath-python/).
 
-Currently just contains conversion functionality.
+Currently this lib just contains conversion functionality.
+
+Tested on ROS1 Kinetic, Lunar, Melodic and Noetic, as well as ROS2 Foxy, Galactic and Humble.
 
 # QuickStart
 
