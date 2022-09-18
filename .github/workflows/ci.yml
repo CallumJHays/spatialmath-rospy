@@ -45,11 +45,11 @@ jobs:
                 - '3.10' # when parsed as num, '0' disappears
                   
               ros_distribution:
-                - melodic
+                # - melodic
                 - noetic
                 - foxy
                 - galactic
-                - humble
+                # - humble
           
 
               # The include syntax allows additional variables to be defined, like
@@ -61,10 +61,10 @@ jobs:
               # https://ros.org/reps/rep-2000.html
               include:
                   
-                # Melodic Morenia (May 2018 - May 2023)
-                - docker_image: ubuntu:bionic
-                  ros_distribution: melodic
-                  ros_version: 1
+                # # Melodic Morenia (May 2018 - May 2023)
+                # - docker_image: ubuntu:bionic
+                #   ros_distribution: melodic
+                #   ros_version: 1
 
                 # Noetic Ninjemys (May 2020 - May 2025)
                 - docker_image: ubuntu:focal
@@ -81,10 +81,10 @@ jobs:
                   ros_distribution: galactic
                   ros_version: 2
 
-                # Humble Hawksbill (May 2022 - May 2027)
-                - docker_image: ubuntu:jammy
-                  ros_distribution: humble
-                  ros_version: 2
+                # # Humble Hawksbill (May 2022 - May 2027)
+                # - docker_image: ubuntu:jammy
+                #   ros_distribution: humble
+                #   ros_version: 2
 
         steps:
             - uses: actions/checkout@v2
@@ -104,7 +104,7 @@ jobs:
               run: pip install -r dev-requirements.txt
               
             - name: Install ROS Deps
-              run: apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
+              run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
 
             - name: Test with Pytest
               run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest
