@@ -114,18 +114,7 @@ jobs:
               run: pip install -r dev-requirements.txt
               
             - name: Install ROS Deps
-              if: ${{ matrix.ros_version == 1 }}
-              uses: ros-tooling/action-ros-ci@v0.2
-              with:
-                package-name: std_msgs geometry_msgs
-                target-ros1-distro: ${{ matrix.ros_distribution }}
-
-            - name: build and test ROS 2
-              if: ${{ matrix.ros_version == 2 }}
-              uses: ros-tooling/action-ros-ci@v0.2
-              with:
-                package-name: std_msgs geometry_msgs
-                target-ros2-distro: ${{ matrix.ros_distribution }}
+              run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
 
             - name: Test with Pytest
               run: source /opt/ros/noetic/setup.bash && python -m pytest
