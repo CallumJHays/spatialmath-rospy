@@ -25,8 +25,7 @@ Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialm
 
 Currently this lib just contains conversion functionality.
 
-Expected to work in any ROS version.
-Tested on ROS1 Melodic and Noetic, as well as ROS2 Foxy, Galactic and Humble.
+Expected to work in any ROS version, but tested only on ROS1 Noetic due to difficulties with the CI config.
 
 # QuickStart
 
