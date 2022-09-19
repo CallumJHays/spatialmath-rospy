@@ -38,7 +38,7 @@ jobs:
             fail-fast: false
             matrix:
               python-version:
-                - 3.6
+                # - 3.6
                 - 3.7
                 - 3.8
                 - 3.9
@@ -101,7 +101,7 @@ jobs:
               run: pip install .
 
             - name: Install Dev-Dependencies
-              run: pip install -r dev-requirements.txt
+              run: pip install .[dev]
               
             - name: Install ROS Deps
               run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs

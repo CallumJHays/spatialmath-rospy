@@ -11,7 +11,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 with open(path.join(here, "RELEASE"), encoding="utf-8") as f:
     release = f.read()
 
-docs_req = ["sphinx", "sphinx_rtd_theme", "sphinx-autorun", "sphinxcontrib-jsmath", "sphinx_markdown_tables"]
+docs_req = ["sphinx", "sphinx_rtd_theme", "sphinx-autorun", "sphinxcontrib-jsmath", "sphinx_markdown_tables", "myst_parser"]
 
 dev_req = [
     "sympy",
@@ -20,7 +20,8 @@ dev_req = [
     "coverage",
     "codecov",
     "recommonmark",
-    "flake8"
+    "flake8",
+    "lark-parser" # seems to be a req of pytest that doesn't get installed automatically on mac and windows
 ]
 
 setup(
@@ -61,7 +62,7 @@ setup(
     keywords="python ros rospy spatialmath spatialmath-python geometry robotics transformations",
     license="MIT",  # TODO
     packages=find_packages(exclude=["test_*", "TODO*"]),
-    install_requires=["numpy", "spatialmath-python"],
+    install_requires=["numpy", "spatialmath-python", "typing-extensions"],
     extras_require={
         "docs": docs_req,
         "dev": dev_req
