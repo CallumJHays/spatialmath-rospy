@@ -24,7 +24,7 @@ dev_req = [
 
 setup(
     name="spatialmath-rospy",
-    version=release,
+    version=__version__,
     # This is a one-line description or tagline of what your project does. This
     # corresponds to the "Summary" metadata field:
     description="spatialmath-python and rospy bridge library",
