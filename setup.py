@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 from os import path
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
 
 here = path.abspath(path.dirname(__file__))
 
@@ -32,9 +32,9 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 2 - Alpha",
         # Indicate who your project is intended for
-        "Intended Audience :: Developers",
+        "Intended Audience :: Developers,",
         # Pick your license as you wish (should match "license" above)
         "License :: OSI Approved :: MIT License",
         # Specify the Python versions you support here. In particular, ensure
