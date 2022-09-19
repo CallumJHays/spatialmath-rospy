@@ -76,8 +76,20 @@ pose_msg = to_ros(sm.SE3(1, 2, 3))
 se3: sm.SE3 = to_spatialmath(pose_msg)
 ```
 
-## [Link: Using Monkey-Patch](#using-monkey-patch)
+## Using Monkey-Patch
+[Not Recommended]
 
+You may prefer to use this option if wanting to add the `.from_ros()` and `.to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis tools like PyLance will not work.
+
+```python
+import spatialmath as sm
+from spatialmath_rospy import monkey_patch_spatialmath
+
+# Invoke this at any point before calling conversion functions
+monkey_patch_spatialmath()
+
+pose_msg = sm.SE3(1, 2, 3).to_ros()
+```
 
 ## Support for `Transform` msgs
 
@@ -176,20 +188,6 @@ This works for all supported ros msg types:
 - `Transform` / `TransformStamped`
 - `Quaternion` / `QuaternionStamped`
 
-## Using monkey-patch
-[not recommended]
-
-You may prefer to use this option if wanting to add the `.from_ros()` and `.to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis tools like PyLance will not work.
-
-```python
-import spatialmath as sm
-from spatialmath_rospy import monkey_patch_spatialmath
-
-# Invoke this at any point before calling conversion functions
-monkey_patch_spatialmath()
-
-pose_msg = sm.SE3(1, 2, 3).to_ros()
-```
 <!-- Check out more examples in the [Examples directory](examples/) -->
 
 <!-- ## Contributors ✨
