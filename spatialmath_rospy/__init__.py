@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 from spatialmath_rospy.convert import to_spatialmath, to_ros
 from spatialmath_rospy.monkey_patch_spatialmath import monkey_patch_spatialmath
