@@ -1,15 +1,13 @@
 from setuptools import setup, find_packages
 from os import path
 
+__version__ = "0.1.10"
+
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
 with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
-
-# Get the release/version string
-with open(path.join(here, "RELEASE"), encoding="utf-8") as f:
-    release = f.read()
 
 docs_req = ["sphinx", "sphinx_rtd_theme", "sphinx-autorun", "sphinxcontrib-jsmath", "sphinx_markdown_tables", "myst_parser"]
 
