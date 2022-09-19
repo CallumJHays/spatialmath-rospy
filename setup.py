@@ -62,7 +62,14 @@ setup(
     keywords="python ros rospy spatialmath spatialmath-python geometry robotics transformations",
     license="MIT",  # TODO
     packages=find_packages(exclude=["test_*", "TODO*"]),
-    install_requires=["numpy", "spatialmath-python", "typing-extensions"],
+    install_requires=[
+        "numpy",
+        "spatialmath-python",
+        "typing-extensions",
+        # actually required by rospy but is sometimes not included in the ROS installation for some reason
+        # this is probably due to some bug in rosdep
+        "pyyaml" 
+    ],
     extras_require={
         "docs": docs_req,
         "dev": dev_req

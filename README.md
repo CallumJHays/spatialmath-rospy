@@ -37,7 +37,7 @@ pip install spatialmath-rospy
 [recommended]
 
 ```python
-from spatialmath_rospy import SE3
+from spatialmath_rospy import SE3, SO3, UnitQuaternion
 
 pose_msg = SE3(1, 2, 3).to_ros()
 print(pose_msg)
@@ -73,7 +73,7 @@ print(from_ros(tf_msg))
 
 ## `Quaternion` msgs
 
-`Quaternion` msgs convert to `UnitQuaternion` objects and vice versa.
+`Quaternion` msgs convert to `UnitQuaternion` objects and vice versa:
 
 ```python
 from spatialmath_rospy import UnitQuaternion
@@ -83,9 +83,7 @@ print(quat_msg)
 print(from_ros(quat_msg))
 ```
 
-`UnitQuaternion` can also be converted to a `Transform` msg with `to_ros(as_tf=True)`.
-
-This `Transform` will have zero translation.
+`UnitQuaternion` can also be converted to a `Transform` msg with `to_ros(as_tf=True)`:
 
 ```python
 from spatialmath_rospy import UnitQuaternion
@@ -99,7 +97,10 @@ se3 = from_ros(tf_msg)
 print(se3)
 ```
 
+This `Transform` will have zero translation.
+
 ## Stamped messages
+
 Just pass a `std_msgs.msg.Header` in to `to_ros()` to construct stamped objects:
 
 ```python
@@ -120,7 +121,7 @@ This works for all supported ros msg types:
 ## Using monkey-patch
 [not recommended]
 
-You may prefer to use this option if wanting to add the `from_ros()` and `to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis will not work.
+You may prefer to use this option if wanting to add the `from_ros()` and `to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis tools like PyLance will not work.
 
 ```python
 import spatialmath as sm
