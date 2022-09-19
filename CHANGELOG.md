@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.0 (2022-09-19)
+### Feature
+* Trigger release ([`314f734`](https://github.com/CallumJHays/spatialmath-rospy/commit/314f734d64cb0c3690b6e0d4873e247de9b79894))
+
+### Documentation
+* Move monkey patch section up ([`bcc8fb8`](https://github.com/CallumJHays/spatialmath-rospy/commit/bcc8fb8408381f9a7a1f1f43ae7588406ce77256))
+
 ## v0.1.2 (2022-09-19)
 ### Fix
 * Pypi classifiers again ([`dbd9213`](https://github.com/CallumJHays/spatialmath-rospy/commit/dbd921304016215d3055133fd2491cf9a02dfb80))
