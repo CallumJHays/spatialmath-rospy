@@ -27,22 +27,24 @@ Currently this lib just contains conversion functionality.
 
 Expected to work in any ROS version, but tested only on ROS1 Noetic due to difficulties with the CI config.
 
-# QuickStart
+## Install
 
 ```bash
 pip install spatialmath-rospy
 ```
 
 ## Using Extended Classes
+
 [Recommended]
 
 ```python
-# So far only SE3, SO3 and UniQuaternion are supported
+# These classes extend their original spatialmath counterparts and  
 from spatialmath_rospy import SE3, SO3, UnitQuaternion
 
 pose_msg = SE3(1, 2, 3).to_ros()
-print(pose_msg)
+print(type(pose_msg), '\n', pose_msg)
 """
+<class 'geometry_msgs.msg._Pose.Pose'> 
 position: 
   x: 1.0
   y: 2.0
@@ -54,7 +56,8 @@ orientation:
   w: 1.0
 """
 
-print(SE3.from_ros(pose_msg))
+se3: SE3 = SE3.from_ros(pose_msg)
+print(se3)
 """
   1         0         0         1         
   0         1         0         2         
@@ -62,7 +65,6 @@ print(SE3.from_ros(pose_msg))
   0         0         0         1
 """
 ```
-
 
 ## Using Conversion Functions
 
@@ -77,6 +79,7 @@ se3: sm.SE3 = to_spatialmath(pose_msg)
 ```
 
 ## Using Monkey-Patch
+
 [Not Recommended]
 
 You may prefer to use this option if wanting to add the `.from_ros()` and `.to_ros()` methods to the original `SE3`, `SO3` and `UnitQuaternion` classes via a monkey-patch. This may be useful for integrating legacy code. Not recommended as static type analysis tools like PyLance will not work.
@@ -101,8 +104,9 @@ A `Transform` msg can be returned instead with `to_ros(as_tf=True)`.
 from spatialmath_rospy import SE3
 
 tf_msg = SE3(1, 2, 3).to_ros(as_tf=True)
-print(tf_msg)
+print(type(tf_msg), '\n', tf_msg)
 """
+<class 'geometry_msgs.msg._Transform.Transform'>
 translation: 
   x: 1.0
   y: 2.0
@@ -123,8 +127,17 @@ rotation:
 from spatialmath_rospy import UnitQuaternion
 
 quat_msg = UnitQuaternion(1, [0, 0, 0]).to_ros()
-print(quat_msg)
-print(UnitQuaternion.from_ros(quat_msg))
+print(type(quat_msg), '\n', quat_msg)
+"""
+<class 'geometry_msgs.msg._Quaternion.Quaternion'> 
+x: 0.0
+y: 0.0
+z: 0.0
+w: 1.0
+"""
+unit_quat = UnitQuaternion.from_ros(quat_msg)
+print(unit_quat)
+" 1.0000 <<  0.0000,  0.0000,  0.0000 >>
 ```
 
 `UnitQuaternion` can also be converted to a `Transform` msg with `to_ros(as_tf=True)`:
@@ -162,8 +175,9 @@ from spatialmath_rospy import SE3
 pose_stamped_msg = SE3(1, 2, 3).to_ros(
   Header(frame_id="world")
 )
-print(pose_stamped_msg)
+print(type(pose_stamped_msg), '\n', pose_stamped_msg)
 """
+<class 'geometry_msgs.msg._PoseStamped.PoseStamped'> 
 header: 
   seq: 0
   stamp: 
@@ -184,8 +198,11 @@ pose:
 ```
 
 This works for all supported ros msg types:
+
 - `Pose` / `PoseStamped`
+  
 - `Transform` / `TransformStamped`
+  
 - `Quaternion` / `QuaternionStamped`
 
 <!-- Check out more examples in the [Examples directory](examples/) -->
