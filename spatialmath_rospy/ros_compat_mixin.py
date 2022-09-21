@@ -87,28 +87,21 @@ class ROSCompatMixin:
     
     @classmethod
     @overload
-    def from_ros(cls: Type[sm.SE3], obj: Union[gm.Pose, gm.PoseStamped, gm.Transform, gm.TransformStamped]) -> 'SE3':
+    def from_ros(cls: Type[sm.SE3], obj: Union[gm.Pose, gm.Transform]) -> 'SE3':
         ...
         
     @classmethod
     @overload
-    def from_ros(cls: Type[sm.SO3], obj: Union[gm.Quaternion, gm.QuaternionStamped]) -> 'SO3':
+    def from_ros(cls: Type[sm.SO3], obj: gm.Quaternion) -> 'SO3':
         ...
 
     @classmethod
     @overload
-    def from_ros(cls: Type[sm.UnitQuaternion], obj: Union[gm.Quaternion, gm.QuaternionStamped]) -> 'UnitQuaternion':
+    def from_ros(cls: Type[sm.UnitQuaternion], obj: gm.Quaternion) -> 'UnitQuaternion':
         ...
 
     @classmethod
-    def from_ros(
-        cls,
-        obj: Union[
-            gm.Pose, gm.PoseStamped,
-            gm.Quaternion, gm.QuaternionStamped,
-            gm.Transform, gm.TransformStamped
-        ]
-    ):
+    def from_ros(cls, obj: Union[gm.Pose, gm.Transform, gm.Quaternion]):
         se3 = to_spatialmath(obj)
 
         if issubclass(cls, sm.SE3):

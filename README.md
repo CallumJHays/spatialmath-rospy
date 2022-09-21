@@ -25,7 +25,9 @@ Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialm
 
 Currently this lib just contains conversion functionality.
 
-Expected to work in any ROS version, but tested only on ROS1 Noetic due to difficulties with the CI config.
+Expect the conversion modules to work in any ROS1 version.
+
+Tested only on ROS1 Noetic due to difficulties with the CI config.
 
 ## Install
 
@@ -182,7 +184,7 @@ header:
   seq: 0
   stamp: 
     secs: 0
-    nsecs:         0
+    nsecs: 0
   frame_id: "world"
 pose: 
   position: 

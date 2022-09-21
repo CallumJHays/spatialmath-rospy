@@ -43,7 +43,7 @@ def test_se3_to_pose_stamped():
     assert pose.pose.orientation.z == 0
     assert pose.pose.orientation.w == 1
 
-    se3_recreated = SE3.from_ros(pose) # type: ignore
+    se3_recreated = SE3.from_ros(pose.pose) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -79,7 +79,7 @@ def test_se3_to_transform_stamped():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = SE3.from_ros(transform) # type: ignore
+    se3_recreated = SE3.from_ros(transform.transform) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -114,7 +114,7 @@ def test_so3_to_transform_stamped():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = SE3.from_ros(transform) # type: ignore
+    se3_recreated = SE3.from_ros(transform.transform) # type: ignore
     assert np.allclose(so3.R, se3_recreated.R)
 
 def test_se3_to_pose_with_translation():
@@ -149,7 +149,7 @@ def test_se3_to_pose_stamped_with_translation():
     assert pose.pose.orientation.z == 0
     assert pose.pose.orientation.w == 1
 
-    se3_recreated = SE3.from_ros(pose) # type: ignore
+    se3_recreated = SE3.from_ros(pose.pose) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -185,7 +185,7 @@ def test_se3_to_transform_stamped_with_translation():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = SE3.from_ros(transform) # type: ignore
+    se3_recreated = SE3.from_ros(transform.transform) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -229,7 +229,7 @@ def test_se3_to_pose_stamped_with_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = SE3.from_ros(pose) # type: ignore
+    se3_recreated = SE3.from_ros(pose.pose) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -273,7 +273,7 @@ def test_se3_to_transform_stamped_with_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = SE3.from_ros(transform) # type: ignore
+    se3_recreated = SE3.from_ros(transform.transform) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -316,7 +316,7 @@ def test_se3_to_pose_stamped_with_translation_and_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = SE3.from_ros(pose) # type: ignore
+    se3_recreated = SE3.from_ros(pose.pose) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -360,7 +360,7 @@ def test_se3_to_transform_stamped_with_translation_and_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = SE3.from_ros(transform) # type: ignore
+    se3_recreated = SE3.from_ros(transform.transform) # type: ignore
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -402,5 +402,5 @@ def test_so3_to_pose_stamped():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = SE3.from_ros(pose) # type: ignore
+    se3_recreated = SE3.from_ros(pose.pose) # type: ignore
     assert np.allclose(so3.R, se3_recreated.R)

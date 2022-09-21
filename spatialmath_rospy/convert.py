@@ -76,6 +76,28 @@ def to_ros(
     gm.Quaternion, gm.QuaternionStamped,
     gm.Transform, gm.TransformStamped
 ]:
+    """
+    Convert a supported spatialmath object to an equivalent ROS message.
+
+    :param obj:
+        The spatialmath object to convert.
+        Can be an :class:`sm.SE3`, :class:`sm.SO3` or a :class:`sm.UnitQuaternion`
+    :param header: (default: None)
+        Optional ros msg :class:`Header`.
+        If provided, the `*Stamped` equivalent message will be output.
+    :param as_tf: (default: False)
+        Whether to return the result as a :class:`gm.Transform` instead of a :class:`gm.Pose` or :class:`gm.Quaternion`.
+    :return:
+        The resulting ROS message.
+
+    The following conversions are supported:
+
+    - :class:`sm.SE3` or :class:`sm.SO3` -> :class:`gm.Pose` or :class:`gm.PoseStamped`
+    - :class:`sm.SE3`, :class:`sm.SO3` or :class:`sm.UnitQuaternion` -> :class:`gm.Transform` or :class:`gm.TransformStamped`.
+    - :class:`sm.UnitQuaternion` -> :class:`gm.Quaternion` or :class:`gm.QuaternionStamped`
+
+    """
+
     # construct the appropriate geometric output object
     res = gm.Transform(
         translation=gm.Vector3(0, 0, 0) if not isinstance(obj, sm.SE3) else gm.Vector3(*obj.t),
@@ -104,36 +126,40 @@ def to_ros(
 
 
 @overload
-def to_spatialmath(obj: Union[gm.Pose, gm.PoseStamped, gm.Transform, gm.TransformStamped]) -> sm.SE3:
+def to_spatialmath(obj: Union[gm.Pose, gm.Transform]) -> sm.SE3:
     ...
     
 @overload
-def to_spatialmath(obj: Union[gm.Quaternion, gm.QuaternionStamped]) -> sm.UnitQuaternion:
+def to_spatialmath(obj: gm.Quaternion) -> sm.UnitQuaternion:
     ...
 
 def to_spatialmath(
-    obj: Union[
-        gm.Pose, gm.PoseStamped,
-        gm.Quaternion, gm.QuaternionStamped,
-        gm.Transform, gm.TransformStamped
-    ]
+    obj: Union[gm.Pose, gm.Transform, gm.Quaternion]
 ) -> Union[sm.SE3, sm.UnitQuaternion]:
+    """Convert a supported ROS message to an equivalent spatialmath object.
 
-    raw = \
-        obj.pose if isinstance(obj, gm.PoseStamped) else \
-        obj.transform if isinstance(obj, gm.TransformStamped) else \
-        obj.quaternion if isinstance(obj, gm.QuaternionStamped) else \
-        obj
+    :param obj:
+        The ROS message to convert.
+        Can be a :class:`gm.Pose`, :class:`gm.Transform` or :class:`gm.Quaternion`.
+    :return:
+        The resulting spatialmath object.
+
+    The following conversions are supported:
+
+    - :class:`gm.Pose` or :class:`gm.PoseStamped` -> :class:`sm.SE3`
+    - :class:`gm.Quaternion` or :class:`gm.QuaternionStamped` -> :class:`sm.UnitQuaternion`
+    - :class:`gm.Transform` or :class:`gm.TransformStamped` -> :class:`sm.SE3`
+    """    
     
-    if isinstance(raw, gm.Quaternion):
-        return sm.UnitQuaternion(raw.w, [raw.x, raw.y, raw.z])
+    if isinstance(obj, gm.Quaternion):
+        return sm.UnitQuaternion(obj.w, [obj.x, obj.y, obj.z])
     
     def raise_err():
         raise ValueError(f"Unable to convert {type(obj)} to SE3")
 
     pos, rot = \
-        (raw.position, raw.orientation) if isinstance(raw, gm.Pose) else \
-        (raw.translation, raw.rotation) if isinstance(raw, gm.Transform) else \
+        (obj.position, obj.orientation) if isinstance(obj, gm.Pose) else \
+        (obj.translation, obj.rotation) if isinstance(obj, gm.Transform) else \
         raise_err()
 
     return sm.SE3.Rt(

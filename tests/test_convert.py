@@ -39,7 +39,7 @@ def test_se3_to_pose_stamped():
     assert pose.pose.orientation.z == 0
     assert pose.pose.orientation.w == 1
 
-    se3_recreated = sm_rospy.to_spatialmath(pose)
+    se3_recreated = sm_rospy.to_spatialmath(pose.pose)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -75,7 +75,7 @@ def test_se3_to_transform_stamped():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = sm_rospy.to_spatialmath(transform)
+    se3_recreated = sm_rospy.to_spatialmath(transform.transform)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -110,7 +110,7 @@ def test_so3_to_transform_stamped():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = sm_rospy.to_spatialmath(transform)
+    se3_recreated = sm_rospy.to_spatialmath(transform.transform)
     assert np.allclose(so3.R, se3_recreated.R)
 
 def test_se3_to_pose_with_translation():
@@ -145,7 +145,7 @@ def test_se3_to_pose_stamped_with_translation():
     assert pose.pose.orientation.z == 0
     assert pose.pose.orientation.w == 1
 
-    se3_recreated = sm_rospy.to_spatialmath(pose)
+    se3_recreated = sm_rospy.to_spatialmath(pose.pose)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -181,7 +181,7 @@ def test_se3_to_transform_stamped_with_translation():
     assert transform.transform.rotation.z == 0
     assert transform.transform.rotation.w == 1
 
-    se3_recreated = sm_rospy.to_spatialmath(transform)
+    se3_recreated = sm_rospy.to_spatialmath(transform.transform)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -225,7 +225,7 @@ def test_se3_to_pose_stamped_with_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = sm_rospy.to_spatialmath(pose)
+    se3_recreated = sm_rospy.to_spatialmath(pose.pose)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -269,7 +269,7 @@ def test_se3_to_transform_stamped_with_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = sm_rospy.to_spatialmath(transform)
+    se3_recreated = sm_rospy.to_spatialmath(transform.transform)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -313,7 +313,7 @@ def test_se3_to_pose_stamped_with_translation_and_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = sm_rospy.to_spatialmath(pose)
+    se3_recreated = sm_rospy.to_spatialmath(pose.pose)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -357,7 +357,7 @@ def test_se3_to_transform_stamped_with_translation_and_rotation():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = sm_rospy.to_spatialmath(transform)
+    se3_recreated = sm_rospy.to_spatialmath(transform.transform)
     assert np.allclose(se3.t, se3_recreated.t)
     assert np.allclose(se3.R, se3_recreated.R)
 
@@ -400,7 +400,7 @@ def test_so3_to_pose_stamped():
     )
     assert np.allclose(quat.s, ori.w)
 
-    se3_recreated = sm_rospy.to_spatialmath(pose)
+    se3_recreated = sm_rospy.to_spatialmath(pose.pose)
     assert np.allclose(so3.R, se3_recreated.R)
 
 def test_unitquat_to_quaternion():
@@ -467,7 +467,7 @@ def test_quaternion_stamped_to_unitquat():
     quat = sm.UnitQuaternion(so3)
     header = Header()
     quat_ros = sm_rospy.to_ros(quat, header)
-    quat_recreated = sm_rospy.to_spatialmath(quat_ros)
+    quat_recreated = sm_rospy.to_spatialmath(quat_ros.quaternion)
 
     assert np.allclose(quat.v, quat_recreated.v)
     assert np.allclose(quat.s, quat_recreated.s)
