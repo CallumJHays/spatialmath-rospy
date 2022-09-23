@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v0.3.1 (2022-09-23)
+### Fix
+* Missed some forward type references ([`3f9ab7b`](https://github.com/CallumJHays/spatialmath-rospy/commit/3f9ab7b5bd745baabfb5cd83f884a1e9dac2163b))
+* Forward-reference geometry.msg so RTD can work without ROS ([`d8db944`](https://github.com/CallumJHays/spatialmath-rospy/commit/d8db944f51c7b5145987eb8791cdbec248bb8181))
+
 ## v0.3.0 (2022-09-23)
 ### Feature
 * Setup open-source integrations ([`95d1eaa`](https://github.com/CallumJHays/spatialmath-rospy/commit/95d1eaaa8ef86d8c49ea1044193d87f6d262401c))
