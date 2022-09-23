@@ -11,7 +11,8 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 
 docs_req = [
     "sphinx",
-    "sphinx_tabs",
+    "sphinx-tabs",
+    "sphinx-prompt",
     "sphinx_rtd_theme",
     "sphinx-autorun",
     "sphinxcontrib-jsmath",
