@@ -32,7 +32,7 @@ class ROSCompatMixin:
     @overload
     def to_ros(
         self: Union[sm.SE3, sm.SO3],
-        header: Header,
+        header: 'Header',
         *,
         as_tf: Literal[False] = False
     ) -> 'gm.PoseStamped':
@@ -52,7 +52,7 @@ class ROSCompatMixin:
     @overload
     def to_ros(
         self: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
-        header: Header,
+        header: 'Header',
         *,
         as_tf: Literal[True]
     ) -> 'gm.TransformStamped':
@@ -71,7 +71,7 @@ class ROSCompatMixin:
     @overload
     def to_ros(
         self: sm.UnitQuaternion,
-        header: Header,
+        header: 'Header',
         *,
         as_tf: Literal[False]
     ) -> 'gm.QuaternionStamped':
@@ -79,7 +79,7 @@ class ROSCompatMixin:
 
     def to_ros(
         self,
-        header: Optional[Header] = None,
+        header: Optional['Header'] = None,
         *,
         as_tf: bool = False
     ) -> Union[

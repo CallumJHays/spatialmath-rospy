@@ -158,6 +158,8 @@ def to_spatialmath(
     Raises:
         AssertionError: If obj's type is not supported.
     """
+
+    import geometry_msgs.msg as gm
     
     if isinstance(obj, gm.Quaternion):
         return sm.UnitQuaternion(obj.w, [obj.x, obj.y, obj.z])
