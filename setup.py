@@ -13,6 +13,7 @@ docs_req = [
     "sphinx",
     "sphinx-tabs",
     "sphinx-prompt",
+    "sphinx-toolbox",
     "sphinx_rtd_theme",
     "sphinx-autorun",
     "sphinxcontrib-jsmath",
