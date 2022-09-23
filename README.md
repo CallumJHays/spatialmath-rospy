@@ -18,7 +18,9 @@
     <img src="https://img.shields.io/codecov/c/github/CallumJHays/spatialmath-rospy.svg?logo=codecov&logoColor=fff&style=flat-square" alt="Test coverage percentage">
   </a>
   <a href="#contributors">
-    <img src="https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square" alt="AllContributors">
+    <span>
+    <img src="https://img.shields.io/badge/all_contributors-2-yellow.svg?style=flat-square" alt="AllContributors">
+    </span>
   </a>
 </p>
 
@@ -26,7 +28,6 @@ Spatial Math for ROS.
 Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialmath-python`](https://pypi.org/project/spatialmath-python/).
 Currently this lib just contains conversion functionality.
 Expect the conversion modules to work in any ROS1 version.
-Tested only on ROS1 Noetic due to difficulties with the CI config.
 
 ## Install
 
@@ -39,7 +40,8 @@ pip install spatialmath-rospy
 ### Extended Classes [Recommended]
 
 ```python
-# These classes extend their original spatialmath counterparts and  
+# These classes extend their spatialmath-python counterparts
+# to provide ROS functionality  
 from spatialmath_rospy import SE3, SO3, UnitQuaternion
 
 pose_msg = SE3(1, 2, 3).to_ros()
