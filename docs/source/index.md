@@ -1,4 +1,4 @@
-# Welcome to spatialmath-rospy documentation!
+Welcome to spatialmath-rospy documentation!
 
 ```{toctree}
 :caption: Table of Contents

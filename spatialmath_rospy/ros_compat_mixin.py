@@ -1,14 +1,15 @@
 
-from typing import Type, Union, Optional, overload
+from typing import Type, Union, Optional, overload, TYPE_CHECKING
 from typing_extensions import Literal, Self
 import spatialmath as sm
 import spatialmath.base as smb
 
-from std_msgs.msg import Header
-import geometry_msgs.msg as gm
 
 from spatialmath_rospy import to_ros, to_spatialmath
 
+if TYPE_CHECKING:
+    from std_msgs.msg import Header
+    import geometry_msgs.msg as gm
 
 class ROSCompatMixin:
     """
@@ -24,7 +25,7 @@ class ROSCompatMixin:
         header: None = None,
         *,
         as_tf: Literal[False] = False
-    ) -> gm.Pose:
+    ) -> 'gm.Pose':
         ...
 
 
@@ -34,7 +35,7 @@ class ROSCompatMixin:
         header: Header,
         *,
         as_tf: Literal[False] = False
-    ) -> gm.PoseStamped:
+    ) -> 'gm.PoseStamped':
         ...
 
 
@@ -44,7 +45,7 @@ class ROSCompatMixin:
         header: None = None,
         *,
         as_tf: Literal[True]
-    ) -> gm.Transform:
+    ) -> 'gm.Transform':
         ...
 
 
@@ -54,7 +55,7 @@ class ROSCompatMixin:
         header: Header,
         *,
         as_tf: Literal[True]
-    ) -> gm.TransformStamped:
+    ) -> 'gm.TransformStamped':
         ...
         
 
@@ -64,7 +65,7 @@ class ROSCompatMixin:
         header: None = None,
         *,
         as_tf: Literal[True]
-    ) -> gm.Quaternion:
+    ) -> 'gm.Quaternion':
         ...
 
     @overload
@@ -73,7 +74,7 @@ class ROSCompatMixin:
         header: Header,
         *,
         as_tf: Literal[False]
-    ) -> gm.QuaternionStamped:
+    ) -> 'gm.QuaternionStamped':
         ...
 
     def to_ros(
@@ -82,9 +83,9 @@ class ROSCompatMixin:
         *,
         as_tf: bool = False
     ) -> Union[
-        gm.Pose, gm.PoseStamped,
-        gm.Quaternion, gm.QuaternionStamped,
-        gm.Transform, gm.TransformStamped
+        'gm.Pose', 'gm.PoseStamped',
+        'gm.Quaternion', 'gm.QuaternionStamped',
+        'gm.Transform', 'gm.TransformStamped'
     ]:
         """
         Return an equivalent ROS message to this object.
@@ -112,7 +113,7 @@ class ROSCompatMixin:
     
 
     @classmethod
-    def from_ros(cls, obj: Union[gm.Pose, gm.Transform, gm.Quaternion]) -> Self:
+    def from_ros(cls, obj: Union['gm.Pose', 'gm.Transform', 'gm.Quaternion']) -> Self:
         """
         Produce an instance of the class from a supported ROS message.
 
@@ -137,7 +138,7 @@ class ROSCompatMixin:
         se3 = to_spatialmath(obj)
 
         if issubclass(cls, sm.SE3):
-            return se3
+            return se3 # type: ignore
         
         elif issubclass(cls, sm.SO3):
             return SO3(se3.R)

@@ -1,4 +1,4 @@
-# spatialmath-rospy
+<h1 style="text-align: center">spatialmath-rospy</h1>
 <!-- TODO: set up all the services needed for these badges -->
 <p align="center">
   <a href="https://pypi.org/project/spatialmath-rospy/">

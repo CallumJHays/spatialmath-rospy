@@ -1,11 +1,13 @@
 
-from typing import Optional, Union, overload
+from typing import TYPE_CHECKING, Optional, Union, overload
 from typing_extensions import Literal
 
-from std_msgs.msg import Header
-import geometry_msgs.msg as gm
 import spatialmath as sm
 import spatialmath.base as smb
+
+if TYPE_CHECKING:
+    from std_msgs.msg import Header
+    import geometry_msgs.msg as gm
 
 __all__ = ["to_ros", "to_spatialmath"]
 
@@ -15,17 +17,17 @@ def to_ros(
     header: None = None,
     *,
     as_tf: Literal[False] = False
-) -> gm.Pose:
+) -> 'gm.Pose':
     ...
 
 
 @overload
 def to_ros(
     obj: Union[sm.SE3, sm.SO3],
-    header: Header,
+    header: 'Header',
     *,
     as_tf: Literal[False] = False
-) -> gm.PoseStamped:
+) -> 'gm.PoseStamped':
     ...
 
 
@@ -35,17 +37,17 @@ def to_ros(
     header: None = None,
     *,
     as_tf: Literal[True]
-) -> gm.Transform:
+) -> 'gm.Transform':
     ...
 
 
 @overload
 def to_ros(
     obj: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
-    header: Header,
+    header: 'Header',
     *,
     as_tf: Literal[True]
-) -> gm.TransformStamped:
+) -> 'gm.TransformStamped':
     ...
 
 @overload
@@ -54,27 +56,27 @@ def to_ros(
     header: None = None,
     *,
     as_tf: Literal[False] = False
-) -> gm.Quaternion:
+) -> 'gm.Quaternion':
     ...
 
 @overload
 def to_ros(
     obj: sm.UnitQuaternion,
-    header: Header,
+    header: 'Header',
     *,
     as_tf: Literal[False] = False
-) -> gm.QuaternionStamped:
+) -> 'gm.QuaternionStamped':
     ...
 
 def to_ros(
     obj: Union[sm.SE3, sm.SO3, sm.UnitQuaternion],
-    header: Optional[Header] = None,
+    header: Optional['Header'] = None,
     *,
     as_tf: bool = False
 ) -> Union[
-    gm.Pose, gm.PoseStamped,
-    gm.Quaternion, gm.QuaternionStamped,
-    gm.Transform, gm.TransformStamped
+    'gm.Pose', 'gm.PoseStamped',
+    'gm.Quaternion', 'gm.QuaternionStamped',
+    'gm.Transform', 'gm.TransformStamped'
 ]:
     """
     Convert a supported spatialmath object to an equivalent ROS message.
@@ -98,6 +100,7 @@ def to_ros(
     Raises:
         AssertionError: If obj's type is not supported.
     """
+    import geometry_msgs.msg as gm
 
     # construct the appropriate geometric output object
     res = gm.Transform(
@@ -127,15 +130,15 @@ def to_ros(
 
 
 @overload
-def to_spatialmath(obj: Union[gm.Pose, gm.Transform]) -> sm.SE3:
+def to_spatialmath(obj: Union['gm.Pose', 'gm.Transform']) -> sm.SE3:
     ...
     
 @overload
-def to_spatialmath(obj: gm.Quaternion) -> sm.UnitQuaternion:
+def to_spatialmath(obj: 'gm.Quaternion') -> sm.UnitQuaternion:
     ...
 
 def to_spatialmath(
-    obj: Union[gm.Pose, gm.Transform, gm.Quaternion]
+    obj: Union['gm.Pose', 'gm.Transform', 'gm.Quaternion']
 ) -> Union[sm.SE3, sm.UnitQuaternion]:
     """
     Convert a supported ROS message to an equivalent spatialmath object.

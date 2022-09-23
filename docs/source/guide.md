@@ -1,4 +1,3 @@
 
-# Guide
 ```{include} ../../README.md
 ```
