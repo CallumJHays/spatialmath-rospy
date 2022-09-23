@@ -9,7 +9,21 @@
   "imageSize": 80,
   "commit": true,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "CallumJHays",
+      "name": "Cal Hays",
+      "avatar_url": "https://avatars.githubusercontent.com/u/13251689?v=4",
+      "profile": "callumjhays.github.io",
+      "contributions": [
+        "ideas",
+        "infra",
+        "doc",
+        "test",
+        "code"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
   "skipCi": true
 }
