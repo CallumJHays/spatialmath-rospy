@@ -216,7 +216,15 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
-<!-- markdownlint-enable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center"><a href="callumjhays.github.io"><img src="https://avatars.githubusercontent.com/u/13251689?v=4?s=80" width="80px;" alt=""/><br /><sub><b>Cal Hays</b></sub></a><br /><a href="#ideas-CallumJHays" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-CallumJHays" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/CallumJHays/spatialmath-rospy/commits?author=CallumJHays" title="Documentation">📖</a> <a href="https://github.com/CallumJHays/spatialmath-rospy/commits?author=CallumJHays" title="Tests">⚠️</a> <a href="https://github.com/CallumJHays/spatialmath-rospy/commits?author=CallumJHays" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
