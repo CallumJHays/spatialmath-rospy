@@ -9,7 +9,15 @@ here = path.abspath(path.dirname(__file__))
 with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
-docs_req = ["sphinx", "sphinx_rtd_theme", "sphinx-autorun", "sphinxcontrib-jsmath", "sphinx_markdown_tables", "myst_parser"]
+docs_req = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinx-autorun",
+    "sphinxcontrib-jsmath",
+    "sphinx_markdown_tables",
+    "myst_parser",
+    "sphinx-autodoc-typehints",
+]
 
 dev_req = [
     "sympy",

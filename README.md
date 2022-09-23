@@ -1,32 +1,31 @@
 # spatialmath-rospy
-
 <!-- TODO: set up all the services needed for these badges -->
-<!-- <p align="center">
-  <a href="https://github.com/CallumJHays/spatialmath-rospy/actions?query=workflow%3ACI">
-    <img src="https://img.shields.io/github/workflow/status/CallumJHays/spatialmath-rospy/CI/main?label=CI&logo=github&style=flat-square" alt="CI Status" >
-  </a>
-  <a href="https://mathpad.readthedocs.io">
-    <img src="https://img.shields.io/readthedocs/mathpad.svg?logo=read-the-docs&logoColor=fff&style=flat-square" alt="Documentation Status">
-  </a>
-  <a href="https://codecov.io/gh/CallumJHays/spatialmath-rospy">
-    <img src="https://img.shields.io/codecov/c/github/CallumJHays/spatialmath-rospy.svg?logo=codecov&logoColor=fff&style=flat-square" alt="Test coverage percentage">
-  </a>
-</p>
 <p align="center">
   <a href="https://pypi.org/project/spatialmath-rospy/">
     <img src="https://img.shields.io/pypi/v/spatialmath-rospy.svg?logo=python&logoColor=fff&style=flat-square" alt="PyPI Version">
   </a>
-  <img src="https://img.shields.io/pypi/pyversions/spatialmath-rospy.svg?style=flat-square&logo=python&amp;logoColor=fff" alt="Supported Python versions">
-  <img src="https://img.shields.io/pypi/l/spatialmath-rospy.svg?style=flat-square" alt="License">
-</p> -->
+  <img src="https://img.shields.io/pypi/pyversions/spatialmath-rospy.svg?style=flat-square&logo=python&amp;logoColor=fff" alt="Supported Python versions" />
+  <img src="https://img.shields.io/pypi/l/spatialmath-rospy.svg?style=flat-square" alt="License" />
+</p>
+<p align="center">
+  <a href="https://github.com/CallumJHays/spatialmath-rospy/actions?query=workflow%3ACI">
+    <img src="https://img.shields.io/github/workflow/status/CallumJHays/spatialmath-rospy/CI/main?label=CI&logo=github&style=flat-square" alt="CI Status" >
+  </a>
+  <a href="https://spatialmath-rospy.readthedocs.io">
+    <img src="https://img.shields.io/readthedocs/spatialmath-rospy.svg?logo=read-the-docs&logoColor=fff&style=flat-square" alt="Documentation Status">
+  </a>
+  <a href="https://codecov.io/gh/CallumJHays/spatialmath-rospy">
+    <img src="https://img.shields.io/codecov/c/github/CallumJHays/spatialmath-rospy.svg?logo=codecov&logoColor=fff&style=flat-square" alt="Test coverage percentage">
+  </a>
+  <a href="#contributors">
+    <img src="https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square" alt="AllContributors">
+  </a>
+</p>
 
 Spatial Math for ROS.
 Intergration library between [`rospy`](http://wiki.ros.org/rospy) and [`spatialmath-python`](https://pypi.org/project/spatialmath-python/).
-
 Currently this lib just contains conversion functionality.
-
 Expect the conversion modules to work in any ROS1 version.
-
 Tested only on ROS1 Noetic due to difficulties with the CI config.
 
 ## Install
@@ -35,9 +34,9 @@ Tested only on ROS1 Noetic due to difficulties with the CI config.
 pip install spatialmath-rospy
 ```
 
-## Using Extended Classes
+## Usage
 
-[Recommended]
+### Extended Classes [Recommended]
 
 ```python
 # These classes extend their original spatialmath counterparts and  
@@ -68,7 +67,7 @@ print(se3)
 """
 ```
 
-## Using Conversion Functions
+### Conversion Functions
 
 For those who prefer a functional style or don't want to use the extended classes
 
@@ -80,7 +79,7 @@ pose_msg = to_ros(sm.SE3(1, 2, 3))
 se3: sm.SE3 = to_spatialmath(pose_msg)
 ```
 
-## Using Monkey-Patch
+### Monkey Patching
 
 [Not Recommended]
 
@@ -96,7 +95,7 @@ monkey_patch_spatialmath()
 pose_msg = sm.SE3(1, 2, 3).to_ros()
 ```
 
-## Support for `Transform` msgs
+## ROS `Transform` Messages
 
 The `to_ros()` function returns a `Pose` msg by default.
 
@@ -121,7 +120,7 @@ rotation:
 """
 ```
 
-## Support for `Quaternion` msgs
+## ROS `Quaternion` Messages
 
 `Quaternion` msgs convert to `UnitQuaternion` objects and vice versa:
 
@@ -166,7 +165,7 @@ rotation:
 
 This `Transform` will have always zero translation.
 
-## Stamped messages
+## ROS Stamped messages
 
 Just pass a `std_msgs.msg.Header` in to `to_ros()` to construct stamped objects:
 
@@ -207,11 +206,10 @@ This works for all supported ros msg types:
   
 - `Quaternion` / `QuaternionStamped`
 
-<!-- Check out more examples in the [Examples directory](examples/) -->
 
-<!-- ## Contributors ✨
+## Contributors ✨
 
-Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)): -->
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -221,7 +219,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-<!-- This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome! -->
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
 ## Credits
 

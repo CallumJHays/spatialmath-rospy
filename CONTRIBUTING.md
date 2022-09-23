@@ -8,7 +8,7 @@ You can contribute in many ways:
 
 ### Report Bugs
 
-Report bugs at <https://github.com/CallumJHays/mathpad/issues>.
+Report bugs at <https://github.com/CallumJHays/spatialmath-rospy/issues>.
 
 If you are reporting a bug, please include:
 
@@ -30,7 +30,7 @@ Block Diagram could always use more documentation, whether as part of the offici
 
 ### Submit Feedback
 
-The best way to send feedback is to file an issue at <https://github.com/CallumJHays/mathpad/issues>.
+The best way to send feedback is to file an issue at <https://github.com/CallumJHays/spatialmath-rospy/issues>.
 
 If you are proposing a feature:
 
@@ -47,14 +47,14 @@ Ready to contribute? Here's how to set yourself up for local development.
 2.  Clone your fork locally:
 
     ```shell
-    $ git clone https://github.com/CallumJHays/mathpad
+    $ git clone https://github.com/CallumJHays/spatialmath-rospy
     ```
 
 3.  Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development:
 
     ```shell
-    $ mkvirtualenv mathpad
-    $ cd mathpad/
+    $ mkvirtualenv spatialmath-rospy
+    $ cd spatialmath-rospy/
     $ python setup.py develop
     ```
 
@@ -66,15 +66,11 @@ Ready to contribute? Here's how to set yourself up for local development.
 
     Now you can make your changes locally.
 
-5.  When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox:
+5.  When you're done making changes, check that your changes pass the tests:
 
     ```shell
-    $ flake8 mathpad tests
     $ pytest
-    $ tox
     ```
-
-    To get flake8 and tox, pip install them into your virtualenv.
 
 6.  Commit your changes and push your branch to GitHub:
 

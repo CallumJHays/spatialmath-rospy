@@ -1,20 +1,15 @@
 # Welcome to spatialmath-rospy documentation!
 
 ```{toctree}
-:caption: Installation & Usage
-:maxdepth: 2
+:caption: Table of Contents
 
-installation
-usage
+guide
+docs
 ```
 
 ```{toctree}
 :caption: Project Info
-:maxdepth: 2
 
-changelog
 contributing
-```
-
-```{include} ../../README.md
+changelog
 ```

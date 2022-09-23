@@ -107,7 +107,15 @@ jobs:
               run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
 
             - name: Test with Pytest
-              run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest
+              run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest --cov=./ --cov-report=xml
+          
+          # upload coverage report generated from pytest to codecov
+          - uses: codecov/codecov-action@v3
+            with:
+              name: codecov-umbrella # optional
+              files: ./coverage1.xml
+              fail_ci_if_error: false
+              verbose: true # optional (default = false)
 
     # docs:
     #     runs-on: ubuntu-latest

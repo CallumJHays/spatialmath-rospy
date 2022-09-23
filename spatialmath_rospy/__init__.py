@@ -1,3 +1,5 @@
+"""Integration module between spatialmath-python and rospy."""
+
 __version__ = "0.2.0"
 
 from spatialmath_rospy.convert import to_spatialmath, to_ros

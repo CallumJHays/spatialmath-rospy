@@ -78,24 +78,25 @@ def to_ros(
 ]:
     """
     Convert a supported spatialmath object to an equivalent ROS message.
-
-    :param obj:
-        The spatialmath object to convert.
-        Can be an :class:`sm.SE3`, :class:`sm.SO3` or a :class:`sm.UnitQuaternion`
-    :param header: (default: None)
-        Optional ros msg :class:`Header`.
-        If provided, the `*Stamped` equivalent message will be output.
-    :param as_tf: (default: False)
-        Whether to return the result as a :class:`gm.Transform` instead of a :class:`gm.Pose` or :class:`gm.Quaternion`.
-    :return:
-        The resulting ROS message.
-
     The following conversions are supported:
 
-    - :class:`sm.SE3` or :class:`sm.SO3` -> :class:`gm.Pose` or :class:`gm.PoseStamped`
-    - :class:`sm.SE3`, :class:`sm.SO3` or :class:`sm.UnitQuaternion` -> :class:`gm.Transform` or :class:`gm.TransformStamped`.
-    - :class:`sm.UnitQuaternion` -> :class:`gm.Quaternion` or :class:`gm.QuaternionStamped`
+    - :class:`SE3` | :class:`SO3` -> :class:`Pose` | :class:`PoseStamped`
+    - :class:`SE3` | :class:`SO3` | :class:`UnitQuaternion` -> :class:`Transform` | :class:`TransformStamped`.
+    - :class:`UnitQuaternion` -> :class:`Quaternion` | :class:`QuaternionStamped`
 
+    Args:
+        obj: The spatialmath object to convert.
+            Can be an :class:`SE3`, :class:`SO3` or a :class:`UnitQuaternion`
+        header: Optional ros msg :class:`Header`.
+            If provided, the `*Stamped` equivalent message will be output.
+        as_tf: Whether to return the result as a :class:`Transform`,
+            instead of a :class:`Pose` or :class:`Quaternion`.
+    
+    Returns:
+        The resulting ROS message.
+        
+    Raises:
+        AssertionError: If obj's type is not supported.
     """
 
     # construct the appropriate geometric output object
@@ -136,20 +137,24 @@ def to_spatialmath(obj: gm.Quaternion) -> sm.UnitQuaternion:
 def to_spatialmath(
     obj: Union[gm.Pose, gm.Transform, gm.Quaternion]
 ) -> Union[sm.SE3, sm.UnitQuaternion]:
-    """Convert a supported ROS message to an equivalent spatialmath object.
-
-    :param obj:
-        The ROS message to convert.
-        Can be a :class:`gm.Pose`, :class:`gm.Transform` or :class:`gm.Quaternion`.
-    :return:
-        The resulting spatialmath object.
-
+    """
+    Convert a supported ROS message to an equivalent spatialmath object.
     The following conversions are supported:
 
-    - :class:`gm.Pose` or :class:`gm.PoseStamped` -> :class:`sm.SE3`
-    - :class:`gm.Quaternion` or :class:`gm.QuaternionStamped` -> :class:`sm.UnitQuaternion`
-    - :class:`gm.Transform` or :class:`gm.TransformStamped` -> :class:`sm.SE3`
-    """    
+    - :class:`gm.Pose` -> :class:`sm.SE3`
+    - :class:`gm.Quaternion` -> :class:`sm.UnitQuaternion`
+    - :class:`gm.Transform` -> :class:`sm.SE3`
+
+    Args:
+        obj: The ROS message to convert.
+            Can be a :class:`gm.Pose`, :class:`gm.Transform` or :class:`gm.Quaternion`.
+    
+    Returns:
+        The resulting spatialmath object. (:class:`sm.SE3` or :class:`sm.UnitQuaternion`)
+
+    Raises:
+        AssertionError: If obj's type is not supported.
+    """
     
     if isinstance(obj, gm.Quaternion):
         return sm.UnitQuaternion(obj.w, [obj.x, obj.y, obj.z])
