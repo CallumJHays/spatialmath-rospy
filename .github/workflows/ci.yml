@@ -1,121 +1,96 @@
 name: CI
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - main
     pull_request:
 
 jobs:
-    # lint:
-    #     strategy:
-    #         fail-fast: false
-    #         matrix:
-    #             linter:
-    #                 - name: Flake8
-    #                   run: flake8
-    #                 - name: Black
-    #                   run: black --check .
-    #                 - name: isort
-    #                   run: isort -c -v .
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - uses: actions/checkout@v2
-    #         - name: Set up Python
-    #           uses: actions/setup-python@v2
-    #           with:
-    #               python-version: 3.8
-    #         - uses: abatilo/actions-poetry@v2.1.0
-    #         - name: Install Dependencies
-    #           run: poetry install
-    #         - name: ${{ matrix.linter.name }}
-    #           run: poetry run ${{ matrix.linter.run }}
+  # Adapted from https://github.com/marketplace/actions/setup-ros-environment
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          # - 3.6
+          - 3.7
+          - 3.8
+          - 3.9
+          - '3.10' # when parsed as num, '0' disappears
+                
+        ros_distribution: # TODO: fix tests on other ros versions
+          # - melodic
+          - noetic
+          # - foxy
+          # - galactic
+          # - humble
 
-    # Adapted from https://github.com/marketplace/actions/setup-ros-environment
-    test:
-        runs-on: ubuntu-latest
-        strategy:
-            fail-fast: false
-            matrix:
-              python-version:
-                # - 3.6
-                - 3.7
-                - 3.8
-                - 3.9
-                - '3.10' # when parsed as num, '0' disappears
-                  
-              ros_distribution:
-                # - melodic
-                - noetic
-                # - foxy
-                # - galactic
-                # - humble
-          
+        # The include syntax allows additional variables to be defined, like
+        # docker_image in this case. See documentation:
+        # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#example-including-configurations-in-a-matrix-build
+        #
+        # Platforms are defined in REP 3 and REP 2000:
+        # https://ros.org/reps/rep-0003.html
+        # https://ros.org/reps/rep-2000.html
+        include:
+            
+          # # Melodic Morenia (May 2018 - May 2023)
+          # - docker_image: ubuntu:bionic
+          #   ros_distribution: melodic
+          #   ros_version: 1
 
-              # The include syntax allows additional variables to be defined, like
-              # docker_image in this case. See documentation:
-              # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#example-including-configurations-in-a-matrix-build
-              #
-              # Platforms are defined in REP 3 and REP 2000:
-              # https://ros.org/reps/rep-0003.html
-              # https://ros.org/reps/rep-2000.html
-              include:
-                  
-                # # Melodic Morenia (May 2018 - May 2023)
-                # - docker_image: ubuntu:bionic
-                #   ros_distribution: melodic
-                #   ros_version: 1
+          # Noetic Ninjemys (May 2020 - May 2025)
+          - docker_image: ubuntu:focal
+            ros_distribution: noetic
+            ros_version: 1
 
-                # Noetic Ninjemys (May 2020 - May 2025)
-                - docker_image: ubuntu:focal
-                  ros_distribution: noetic
-                  ros_version: 1
+          # # Foxy Fitzroy (June 2020 - May 2023)
+          # - docker_image: ubuntu:focal
+          #   ros_distribution: foxy
+          #   ros_version: 2
 
-                # # Foxy Fitzroy (June 2020 - May 2023)
-                # - docker_image: ubuntu:focal
-                #   ros_distribution: foxy
-                #   ros_version: 2
+          # # Galactic Geochelone (May 2021 - November 2022)
+          # - docker_image: ubuntu:focal
+          #   ros_distribution: galactic
+          #   ros_version: 2
 
-                # # Galactic Geochelone (May 2021 - November 2022)
-                # - docker_image: ubuntu:focal
-                #   ros_distribution: galactic
-                #   ros_version: 2
+          # # Humble Hawksbill (May 2022 - May 2027)
+          # - docker_image: ubuntu:jammy
+          #   ros_distribution: humble
+          #   ros_version: 2
 
-                # # Humble Hawksbill (May 2022 - May 2027)
-                # - docker_image: ubuntu:jammy
-                #   ros_distribution: humble
-                #   ros_version: 2
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Set up ROS
+        uses: ros-tooling/setup-ros@v0.4
+        with:
+          required-ros-distributions: ${{ matrix.ros_distribution}}
 
-        steps:
-            - uses: actions/checkout@v2
-            - name: Set up Python
-              uses: actions/setup-python@v2
-              with:
-                  python-version: ${{ matrix.python-version }}
-            - name: Set up ROS
-              uses: ros-tooling/setup-ros@v0.4
-              with:
-                required-ros-distributions: ${{ matrix.ros_distribution}}
+      - name: Install Dependencies
+        run: pip install .
 
-            - name: Install Dependencies
-              run: pip install .
+      - name: Install Dev-Dependencies
+        run: pip install .[dev]
+        
+      - name: Install ROS Deps
+        run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
 
-            - name: Install Dev-Dependencies
-              run: pip install .[dev]
-              
-            - name: Install ROS Deps
-              run: sudo apt install ros-${{ matrix.ros_distribution}}-std-msgs ros-${{ matrix.ros_distribution}}-geometry-msgs
-
-            - name: Test with Pytest
-              run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest --cov=./ --cov-report=xml
-          
-          # upload coverage report generated from pytest to codecov
-          - uses: codecov/codecov-action@v3
-            with:
-              name: codecov-umbrella # optional
-              files: ./coverage1.xml
-              fail_ci_if_error: false
-              verbose: true # optional (default = false)
+      - name: Test with Pytest
+        run: source /opt/ros/${{ matrix.ros_distribution}}/setup.bash && python -m pytest --cov=./ --cov-report=xml
+      
+      # upload coverage report generated from pytest to codecov
+      - uses: codecov/codecov-action@v3
+        with:
+          name: codecov-umbrella # optional
+          files: ./coverage1.xml
+          fail_ci_if_error: false
+          verbose: true # optional (default = false)
 
     # docs:
     #     runs-on: ubuntu-latest
@@ -132,27 +107,26 @@ jobs:
     #           working-directory: docs
     #           run: poetry run make html
 
-    release:
-        runs-on: ubuntu-latest
-        environment: release
-        if: github.ref == 'refs/heads/main'
-        needs:
-          - test
-        #   - lint
+  release:
+    runs-on: ubuntu-latest
+    environment: release
+    if: github.ref == 'refs/heads/main'
+    needs:
+      - test
 
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  fetch-depth: 0
+    steps:
+        - uses: actions/checkout@v2
+          with:
+              fetch-depth: 0
 
-            # Run semantic release:
-            # - Update CHANGELOG.md
-            # - Update version in code
-            # - Create git tag
-            # - Create Github release
-            # - Publish to PyPI
-            - name: Python Semantic Release
-              uses: relekang/python-semantic-release@master
-              with:
-                  github_token: ${{ secrets.GH_TOKEN }}
-                  pypi_token: ${{ secrets.PYPI_TOKEN }}
+        # Run semantic release:
+        # - Update CHANGELOG.md
+        # - Update version in code
+        # - Create git tag
+        # - Create Github release
+        # - Publish to PyPI
+        - name: Python Semantic Release
+          uses: relekang/python-semantic-release@master
+          with:
+              github_token: ${{ secrets.GH_TOKEN }}
+              pypi_token: ${{ secrets.PYPI_TOKEN }}
