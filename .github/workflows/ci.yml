@@ -128,6 +128,5 @@ jobs:
         - name: Python Semantic Release
           uses: relekang/python-semantic-release@master
           with:
-            tag_format: "{version}" # default is "v{version}", which RTD cannot parse and host versioned docs for
             github_token: ${{ secrets.GH_TOKEN }}
             pypi_token: ${{ secrets.PYPI_TOKEN }}
