@@ -35,6 +35,9 @@ Expect the conversion modules to work in any ROS1 version.
 pip install spatialmath-rospy
 ```
 
+## Documentation
+[ReadTheDocs](https://spatialmath-rospy.readthedocs.io/en/latest/)
+
 ## Usage
 
 ### Extended Classes [Recommended]
